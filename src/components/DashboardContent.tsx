@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { AppSidebar, MetricType } from "./AppSidebar";
 import { MetricChart } from "./MetricChart";
+import { MetricFilters } from "./MetricFilters";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -36,6 +37,11 @@ export function DashboardContent() {
     return descriptions[metric];
   };
 
+  const handleFiltersChange = (filters: any) => {
+    console.log("Filtros aplicados:", filters);
+    // Aqui você pode implementar a lógica para filtrar os dados dos gráficos
+  };
+
   return (
     <div className="flex h-screen">
       <AppSidebar 
@@ -62,6 +68,8 @@ export function DashboardContent() {
         </header>
 
         <main className="flex-1 p-6 bg-gray-50 overflow-auto">
+          <MetricFilters onFiltersChange={handleFiltersChange} />
+          
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Análise de {getMetricTitle(selectedMetric)}</CardTitle>
