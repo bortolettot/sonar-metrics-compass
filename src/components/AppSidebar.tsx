@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { 
   Code, 
   GitBranch, 
@@ -8,7 +9,8 @@ import {
   Shield, 
   CheckCircle, 
   Bug,
-  BarChart3 
+  BarChart3,
+  Users
 } from "lucide-react";
 
 import {
@@ -83,6 +85,8 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ selectedMetric = "overview", onMetricChange }: AppSidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <Sidebar className="w-64 border-r">
       <SidebarHeader className="p-4">
@@ -115,6 +119,23 @@ export function AppSidebar({ selectedMetric = "overview", onMetricChange }: AppS
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Cadastros</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() => navigate("/squads")}
+                  isActive={location.pathname.startsWith("/squads")}
+                  className="w-full justify-start"
+                >
+                  <Users className="mr-3 h-4 w-4" />
+                  <span className="text-sm">Squads</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
