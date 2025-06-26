@@ -141,18 +141,18 @@ export function MetricChart({ metric }: MetricChartProps) {
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={chartConfig.data}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
+              <XAxis dataKey={metric === "test-coverage" ? "component" : metric === "code-standards" ? "standard" : "name"} />
               <YAxis />
               <Tooltip />
               <Legend />
               <Bar dataKey="value" fill="#3b82f6" />
-              {chartConfig.data[0]?.target && (
-                <Bar dataKey="target" fill="#10b981" />
+              {metric === "test-coverage" && (
+                <>
+                  <Bar dataKey="coverage" fill="#3b82f6" />
+                  <Bar dataKey="target" fill="#10b981" />
+                </>
               )}
-              {chartConfig.data[0]?.coverage && (
-                <Bar dataKey="coverage" fill="#3b82f6" />
-              )}
-              {chartConfig.data[0]?.compliance && (
+              {metric === "code-standards" && (
                 <Bar dataKey="compliance" fill="#8b5cf6" />
               )}
             </BarChart>
@@ -164,50 +164,52 @@ export function MetricChart({ metric }: MetricChartProps) {
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={chartConfig.data}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="module" />
+              <XAxis dataKey={metric === "cyclomatic-complexity" ? "module" : "week"} />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line 
-                type="monotone" 
-                dataKey="complexity" 
-                stroke="#ef4444" 
-                strokeWidth={2}
-                name="Complexidade"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="threshold" 
-                stroke="#10b981" 
-                strokeDasharray="5 5"
-                name="Limite Recomendado"
-              />
-              {chartConfig.data[0]?.bugs && (
-                <Line 
-                  type="monotone" 
-                  dataKey="bugs" 
-                  stroke="#ef4444" 
-                  strokeWidth={2}
-                  name="Bugs"
-                />
+              {metric === "cyclomatic-complexity" && (
+                <>
+                  <Line 
+                    type="monotone" 
+                    dataKey="complexity" 
+                    stroke="#ef4444" 
+                    strokeWidth={2}
+                    name="Complexidade"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="threshold" 
+                    stroke="#10b981" 
+                    strokeDasharray="5 5"
+                    name="Limite Recomendado"
+                  />
+                </>
               )}
-              {chartConfig.data[0]?.codeSmells && (
-                <Line 
-                  type="monotone" 
-                  dataKey="codeSmells" 
-                  stroke="#f59e0b" 
-                  strokeWidth={2}
-                  name="Code Smells"
-                />
-              )}
-              {chartConfig.data[0]?.resolved && (
-                <Line 
-                  type="monotone" 
-                  dataKey="resolved" 
-                  stroke="#10b981" 
-                  strokeWidth={2}
-                  name="Resolvidos"
-                />
+              {metric === "bugs-code-smells" && (
+                <>
+                  <Line 
+                    type="monotone" 
+                    dataKey="bugs" 
+                    stroke="#ef4444" 
+                    strokeWidth={2}
+                    name="Bugs"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="codeSmells" 
+                    stroke="#f59e0b" 
+                    strokeWidth={2}
+                    name="Code Smells"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="resolved" 
+                    stroke="#10b981" 
+                    strokeWidth={2}
+                    name="Resolvidos"
+                  />
+                </>
               )}
             </LineChart>
           </ResponsiveContainer>
